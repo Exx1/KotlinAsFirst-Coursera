@@ -66,7 +66,19 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if (n in 0..9) return 1
+    if (n >= 10) {
+        var x = 0
+        for (i in n..9) {
+            x = i / 10
+            if (x > 9) {
+                x + 1
+            }
+        }
+    }
+    return 4
+}
 
 /**
  * Простая
@@ -77,9 +89,11 @@ fun digitNumber(n: Int): Int = TODO()
 fun fib(n: Int): Int {
     if (n == 1 || n == 2) return 1
     if (n > 2) {
+        var x2 = 1
         var xn = 1
-        for (i in 3..n step n + (n + 1)) {
-            xn = xn + i
+        for (i in 1..n - 2) {
+            xn = xn + x2
+            x2 = xn - x2
         }
         return xn
     }
