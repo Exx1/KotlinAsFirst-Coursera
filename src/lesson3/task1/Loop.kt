@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 /**
@@ -38,7 +40,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -185,19 +187,22 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * этого для какого-либо начального X > 0.
  */
 fun collatzSteps(x: Int): Int {
-    if (x > 0) {
+    if (x >= 2) {
         var q = 0
         var y = x
-        for (i in x..0) {
-            if (i % 2 == 0) {
-                x = x / 2
+        while (y >= 2) {
+            if (y % 2 != 0) {
+                y = 3 * y + 1
                 q++
             }
-            x = 3 * x + 1
+            y /= 2
             q++
         }
+        return q
     }
+    return 0
 }
+
 
 /**
  * Средняя
@@ -206,7 +211,17 @@ fun collatzSteps(x: Int): Int {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var p = x
+    var s = x
+    var n = 0.0
+    while (abs(s) > eps) {
+        n += 1.0
+        p = (-p * x * x) / (2.0 * n) / (2.0 * (n + 1.0))
+        s = s + p
+    }
+    return s
+}
 
 /**
  * Средняя
