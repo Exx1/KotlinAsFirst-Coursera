@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sqrt
 
@@ -13,7 +14,7 @@ import kotlin.math.sqrt
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -94,7 +95,7 @@ fun fib(n: Int): Int {
         var x2 = 1
         var xn = 1
         for (i in 1..n - 2) {
-            xn = xn + x2
+            xn += x2
             x2 = xn - x2
         }
         return xn
@@ -212,15 +213,22 @@ fun collatzSteps(x: Int): Int {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var p = x
-    var s = x
-    var n = 0.0
-    while (abs(s) > eps) {
-        n += 1.0
-        p = (-p * x * x) / (2.0 * n) / (2.0 * (n + 1.0))
-        s = s + p
+    if (x < PI * 2) {
+        var p = x
+        var n = 1.0
+        var q = n
+        var i = x
+        var z: Double
+        do {
+            z = (-i * x * x) / (q * (n + 1.0) * (n + 2.0))
+            p = p + z
+            i = -i * x * x
+            q = q * (n + 1.0) * (n + 2.0)
+            n = n + 2.0
+        } while (abs(z) > eps)
+        return p
     }
-    return s
+    return 0.0
 }
 
 /**
@@ -230,7 +238,24 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    if (x < PI * 2) {
+        var p = 1.0
+        var n = 0.0
+        var q = 1.0
+        var i = 1.0
+        var z: Double
+        do {
+            z = (-i * x * x) / (q * (n + 1.0) * (n + 2.0))
+            p = p + z
+            i = -i * x * x
+            q = q * (n + 1.0) * (n + 2.0)
+            n = n + 2.0
+        } while (abs(z) > eps)
+        return p
+    }
+    return 1.0
+}
 
 /**
  * Средняя
@@ -239,7 +264,17 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var z: Int
+    var i = 0
+    var o = n
+    do {
+        z = o % 10
+        i = i * 10 + z
+        o = o / 10
+    } while (o > 0)
+    return i
+}
 
 /**
  * Средняя
@@ -250,7 +285,10 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    if (revert(n) == n) return true
+    return false
+}
 
 /**
  * Средняя
@@ -260,7 +298,17 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var z: Int
+    var o = n
+    val l = o % 10
+    do {
+        z = o % 10
+        if (l != z) return true
+        o = o / 10
+    } while (o > 0)
+    return false
+}
 
 /**
  * Сложная
@@ -282,4 +330,8 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    val z: Int
+    z = fib(n)
+    return z
+}
