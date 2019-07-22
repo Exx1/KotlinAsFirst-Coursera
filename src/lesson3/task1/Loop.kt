@@ -2,9 +2,11 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sqrt
+import kotlin.system.measureTimeMillis
 
 /**
  * Пример
@@ -319,7 +321,34 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    if (n == 1) return 1
+    var q = 1
+    var z:Int
+    var count = 1
+    var p:Int
+    do {
+        q = q + 1
+        z = sqr(q)
+        count++
+        if (count == n && z < 10) return z
+        while (z > 9) {
+            if (count == n) {
+                p = z % 10
+                z = z / 10
+                if (z < 10) return p
+                while (z > 9) {
+                    z = z / 10
+                }
+                return z
+
+            }
+        }
+        z = z / 10
+        count++
+    } while (z > 0)
+    return 100
+}
 
 /**
  * Сложная
