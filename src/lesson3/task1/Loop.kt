@@ -316,36 +316,38 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Сложная
  *
  * Найти n-ю цифру последовательности из квадратов целых чисел:
- * 149162536496481100121144...
+ * 149162536496481100121144169...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
     if (n == 1) return 1
-    var q = 1
+    var q = 0
     var z:Int
-    var count = 1
+    var count = 0
     var p:Int
     do {
         q = q + 1
         z = sqr(q)
         count++
         if (count == n && z < 10) return z
-        while (z > 9) {
-            if (count == n) {
-                p = z % 10
+        if (count == n) {
+            do {
                 z = z / 10
+            } while (z > 9)
+            return z
+        }
+        while (z > 9) {
+            p = sqr(q) % 10
+            z = z / 10
+            count++
+            if (count == n) {
                 if (z < 10) return p
-                while (z > 9) {
-                    z = z / 10
-                }
+                z = z % 10
                 return z
-
             }
         }
-        z = z / 10
-        count++
     } while (z > 0)
     return 100
 }
@@ -360,7 +362,32 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    val z: Int
-    z = fib(n)
-    return z
+    if (n == 1 || n == 2) return 1
+    var q = 0
+    var z: Int
+    var count = 0
+    var p: Int
+    do {
+        q = q + 1
+        z = fib(q)
+        count++
+        if (count == n && z < 10) return z
+        if (count == n) {
+            do {
+                z = z / 10
+            } while (z > 9)
+            return z
+        }
+        while (z > 9) {
+            p = fib(q) % 10
+            z = z / 10
+            count++
+            if (count == n) {
+                if (z < 10) return p
+                z = z % 10
+                return z
+            }
+        }
+    } while (z > 0)
+    return 100
 }
